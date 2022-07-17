@@ -21,11 +21,11 @@ async def on_ready():
 @client.command()
 async def list_commands(ctx):
   commands = '''
-    !hello - Says hello
-  !whats_my_id - gives you your id
-  !annoy_everyone - mentions everyone in the server
-  !joke - tells you a one liner joke
-  !insult_me - use at your own discretion
+!hello - Says hello
+!whats_my_id - gives you your id
+!annoy_everyone - mentions everyone in the server
+!joke - tells you a one liner joke
+!insult <me/username> - use at your own discretion
   '''
   await ctx.send(commands)  
 
@@ -50,8 +50,14 @@ async def joke(ctx):
   await ctx.send(the_joke)  
 
 @client.command()
-async def insult_me(ctx):
-  text = requests.get('https://insult.mattbas.org/api/insult')
-  await ctx.send(text.text)
+async def insult(ctx, arg):
+  if arg == 'me':
+    text = requests.get('https://insult.mattbas.org/api/insult')
+    await ctx.send(text.text)
+  else:
+    to_search = str(arg)
+    text = requests.get("https://insult.mattbas.org/api/insult?who=" + to_search)
+    insult_string = text.text
+    await ctx.send(f"{arg} {insult_string}")
 keep_alive()
 client.run(TOKEN)
