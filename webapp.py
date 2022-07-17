@@ -1,18 +1,14 @@
 from flask import Flask
 from threading import Thread
-import datetime
 
-app = Flask(__name__)
+app = Flask("")
 
-@app.route('/')
-def main_func():
-    
-    content = "<p>" + "Online @ " + str(datetime.datetime.now()) + "</p>"
-    return content
-
+@app.route("/")
+def home():
+  return ("Hello. This server is alive!")
 def run():
-    app.run(host="0.0.0.0", port=8080)
+  app.run(host="0.0.0.0", port=8080)
 
 def keep_alive():
-    server = Thread(target=run)
-    server.start()
+  t = Thread(target=run)
+  t.start()
