@@ -90,8 +90,62 @@ async def uptime(ctx):
   except:
     await ctx.send('Database not available')
 
+# O bot of the server, what is your wisdom
+
+@client.command()
+async def quote_here(ctx):
+  if db['quote_on'] == 'true':
+    await ctx.send('Quotes are active in another channel. !stop it first and try again')
+  else:
+    db['quote_on'] = 'true'
+    while db['quote_on'] == 'true':
+      url = "https://motivational-quotes1.p.rapidapi.com/motivation"
+      payload = {
+	      "key1": "value",
+	      "key2": "value"
+      }
+      headers = {
+	      "content-type": "application/json",
+	      "X-RapidAPI-Key": "b0286087bfmshfa69e2cad96216ep15190cjsn57eb91b3cf1b",
+	      "X-RapidAPI-Host": "motivational-quotes1.p.rapidapi.com"
+      }
+      response = requests.request("POST", url, json=payload, headers=headers)
+      quote = response.text
+      await ctx.send("Hourly quote")
+      await ctx.send(quote)
+      sleep(3600)
+
+@client.command()
+async def quote(ctx):
+  url = "https://motivational-quotes1.p.rapidapi.com/motivation"
+  payload = {
+	  "key1": "value",
+	  "key2": "value"
+  }
+  headers = {
+	  "content-type": "application/json",
+	  "X-RapidAPI-Key": "b0286087bfmshfa69e2cad96216ep15190cjsn57eb91b3cf1b",
+	  "X-RapidAPI-Host": "motivational-quotes1.p.rapidapi.com"
+  }
+  response = requests.request("POST", url, json=payload, headers=headers)
+  quote = response.text
+  await ctx.send(quote)
+    
+# Thou shalt introduce yourself
+@client.command()
+async def hello_world(ctx):
+  await ctx.send('hello world!')
+
+# oh dont mind my comments XD I like to have fun with words
+# HALT I COMMAND YOU
+@client.command()
+async def stop(ctx):
+  db['quote_on'] = 'false'  
+  await ctx.send('killed the loop')  
+  
 # thou shalt not slumber
 keep_alive()
-
+# damn u work pretty fast man!
+# hehe
 # I command thee, RISE!!
 client.run(TOKEN)
